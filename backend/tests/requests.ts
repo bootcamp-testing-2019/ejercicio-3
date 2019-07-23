@@ -3,9 +3,13 @@ import initializeApp from '../app'
 
 let g_app
 
+async function initializeConnection() {
+        g_app = await initializeApp()
+}
+
 async function getApp() {
     if(g_app === undefined) {
-        g_app = await initializeApp()
+        await initializeConnection()
     }
 
     return g_app
@@ -26,4 +30,4 @@ async function post(url, body = undefined) {
         .set('Accept', 'application/json')
 }
 
-export {get, post}
+export {initializeConnection, get, post}
