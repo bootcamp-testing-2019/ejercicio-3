@@ -1,0 +1,37 @@
+version: '3.1'
+
+# Start the mysql server with
+#   sudo docker-compose -up -d
+#
+# Stop the mysql server with  
+#   sudo docker-compose stop
+#   sudo docker-compose rm
+#
+# Connect with mysql client using
+#     sudo docker-compose exec database mysql -hlocalhost -uroot -p
+#
+# Connect to a shell in the mysql container with
+#     sudo docker-compose exec database sh
+#
+# Dump the database
+#   sudo docker-compose exec database sh -c 'exec mysqldump bootcamp --add-drop-database -uroot -p"root"' > $(pwd)/bootcamp.sql
+
+services:
+  database:
+    image: mysql:5.7
+    container_name: bootcamp-mysql
+    ports: 
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  adminer:
+    image: adminer
+    container_name: bootcamp-adminer
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
